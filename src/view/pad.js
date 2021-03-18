@@ -28,9 +28,11 @@ export default class Whiteboard extends React.Component {
     })
     const rewind = props.rewind || function () { }
     const clear = props.clear || function () { }
+    const set = props.set || function () { }
     this._clientEvents = {
       rewind: rewind(this.rewind),
       clear: clear(this.clear),
+      set:set(this.set)
     }
 
   }
@@ -70,6 +72,16 @@ export default class Whiteboard extends React.Component {
     this.state.pen.clear()
     this._onChangeStrokes([])
   }
+  
+  set = (strokes) => {
+    this.setState({
+      previousStrokes: strokes,
+      currentPoints: [],
+      tracker: 0,
+    });
+    this._onChangeStrokes(strokes);
+  }
+
 
   onTouch(evt) {
     if (this.props.enabled == false) return;
